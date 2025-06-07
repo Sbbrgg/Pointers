@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 using namespace std;
 
 //#define FIRST_FARIANT
@@ -78,7 +78,7 @@ void main()
 			count_for_odd++;
 		}
 	}
-	cout << "Îñíîâíîé ìàññèâ: ";
+	cout << "ÐžÑÐ½Ð¾Ð²Ð½Ð¾Ð¹ Ð¼Ð°ÑÑÐ¸Ð²: ";
 	for (int i = 0; i < n; i++)
 	{
 		cout << arr[i] << "\t";
@@ -94,13 +94,13 @@ void main()
 		if (i < count_for_even)even[index_for_even++] = arr[i];
 		else odd[index_for_odd++] = arr[i];
 	}
-	cout << "×¸òíûå ýëåìåíòû ìàññèâà: ";
+	cout << "Ð§Ñ‘Ñ‚Ð½Ñ‹Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹ Ð¼Ð°ÑÑÐ¸Ð²Ð°: ";
 	for (int i = 0; i < index_for_even; i++)
 	{
 		cout << even[i] << "\t";
 	}
 	cout << endl;
-	cout << "Íå÷¸òíûå ýëåìåíòû ìàññèâà: ";
+	cout << "ÐÐµÑ‡Ñ‘Ñ‚Ð½Ñ‹Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹ Ð¼Ð°ÑÑÐ¸Ð²Ð°: ";
 	for (int i = 0; i < index_for_odd; i++)
 	{
 		cout << odd[i] << "\t";
