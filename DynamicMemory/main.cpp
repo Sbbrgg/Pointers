@@ -10,6 +10,9 @@ int* push_front(int arr[], int& n, const int value);
 int* pop_back(int arr[], int& n);
 int* pop_front(int arr[], int& n);
 
+int* insert(int arr[], int& n, const int value, const int index);
+int* erase(int arr[], int& n, const int index);
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -21,7 +24,7 @@ void main()
 	Print(arr, n);
 
 	int value;
-	cout << endl << "Введите добавляемое значение: "; cin >> value;
+	/*cout << endl << "Введите добавляемое значение: "; cin >> value;
 	arr = push_back(arr, n, value);
 	Print(arr, n);
 
@@ -35,6 +38,27 @@ void main()
 
 	cout << "Удаляем первое значение" << endl;
 	arr = pop_front(arr, n);
+	Print(arr, n);
+	cout << endl << endl;*/
+
+	int index;
+	cout << "Введи добавляемое значение: "; cin >> value;
+	while (true)
+	{
+		cout << "Введи индекс массива, куда вставить значение: "; cin >> index;
+		if (index < 0 || index > n)cout << "Неправильный индекс" << endl;
+		else break;
+	}
+	arr = insert(arr, n, value, index);
+	Print(arr, n);
+
+	while (true)
+	{
+		cout << "Введите индекс значения, которое хотите удалить из массива: "; cin >> index;
+		if (index < 0 || index > n)cout << "Неправильный индекс" << endl;
+		else break;
+	}
+	arr = erase(arr, n, index);
 	Print(arr, n);
 
 	delete[] arr;
@@ -119,3 +143,52 @@ int* pop_front(int arr[], int& n)
 	return buffer;
 }
 
+int* insert(int arr[], int& n, const int value, const int index)
+{
+	int* buffer = new int[n + 1];
+	for (int i = 0; i < n+1; i++)
+	{
+		if (i < index)buffer[i] = arr[i];
+		else if (i == index)buffer[i] = value;
+		else buffer[i] = arr[i - 1];
+	}
+	delete[] arr;
+	n++;
+	return buffer;
+	/*int* buffer = new int[n + 1];
+	for (int i = 0; i < index; i++)
+	{
+		buffer[i] = arr[i];
+	}
+	buffer[index] = value;
+	for (int i = index; i < n; i++)
+	{
+		buffer[i+1] = arr[i];
+	}
+	delete[] arr;
+	n++;
+	return buffer;*/
+}
+int* erase(int arr[], int& n, const int index)
+{
+	int* buffer = new int[n - 1];
+	for (int i = 0; i < n - 1; i++)
+	{
+		if (i < index) buffer[i] = arr[i];
+		else buffer[i] = arr[i + 1];
+	}
+	delete[] arr;
+	n--;
+	return buffer;
+	/*int* buffer = new int[--n];
+	for (int i = 0; i < index; i++)
+	{
+		buffer[i] = arr[i];
+	}
+	for (int i = index; i < n; i++)
+	{
+		buffer[i] = arr[i + 1];
+	}
+	delete[] arr;
+	return buffer;*/
+}
