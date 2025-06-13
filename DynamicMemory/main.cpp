@@ -476,6 +476,11 @@ void pop_col_front(int** arr, const int rows, int& cols)
 
 int** insert_row(int** arr, int& rows, const int cols, const int index)
 {
+	if (index < 0 || index>rows)
+	{
+		cout << "Error: Out of range exception" << endl;
+		return arr;
+	}
 	int** buffer = new int* [rows + 1];
 	for (int i = 0; i < rows + 1; i++)
 	{
