@@ -21,7 +21,11 @@ int* insert(int arr[], int& n, const int value, const int index);
 int* erase(int arr[], int& n, const int index);
 
 int** Allocate(const int rows, const int cols);
+#ifdef CLEAR_VARIANT_ONE
 void Clear(int** arr, const int rows);
+#endif // CLEAR_VARIANT_ONE
+void Clear(int**& arr, const int rows/*, const int cols = 0*/);	//можно передавать cols,
+//а можно не передавать.
 
 int** push_row_back(int** arr, int& rows, const int cols);
 int** push_row_front(int** arr, int& rows, const int cols);
@@ -42,7 +46,8 @@ void erase_col(int** arr, const int rows, int& cols, const int index);
 //#define DYNAMIC_MEMORY_1
 //#define DYNAMIC_MEMORY_2
 #define DYNAMIC_MEMORY_3
-
+//#define CLEAR_VARIANT_ONE
+#define CLEAR_VARIANT_TWO
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -191,7 +196,7 @@ void FillRand(int arr[], const int n, int minRand, int maxRand)
 {
 	for (int i = 0; i < n; i++)
 	{
-		*(arr + i) = rand() % (maxRand-minRand)+minRand;	//Через арифметику указателей и оператор разыменования
+		*(arr + i) = rand() % (maxRand - minRand) + minRand;	//Через арифметику указателей и оператор разыменования
 	}
 }
 void FillRand(int** arr, const int rows, const int cols, int minRand, int maxRand)
@@ -222,10 +227,10 @@ void Print(int** arr, const int rows, const int cols)
 		}
 		cout << endl;
 	}
-		cout << endl;
+	cout << endl;
 }
 
-int* push_back(int arr[], int& n, const int value) 
+int* push_back(int arr[], int& n, const int value)
 {
 	//1) Создаём буферный массив нужного размера:
 	int* buffer = new int[n + 1];
@@ -259,7 +264,7 @@ int* push_front(int arr[], int& n, const int value)
 
 	for (int i = 0; i < n; i++)
 	{
-		buffer[i+1] = arr[i];
+		buffer[i + 1] = arr[i];
 	}
 
 	delete[] arr;
@@ -283,7 +288,7 @@ int* pop_back(int arr[], int& n)
 int* pop_front(int arr[], int& n)
 {
 	int* buffer = new int[--n];
-	for (int i = 0; i < n; i++)buffer[i] = arr[i+1];
+	for (int i = 0; i < n; i++)buffer[i] = arr[i + 1];
 	delete[] arr;
 	return buffer;
 }
@@ -291,7 +296,7 @@ int* pop_front(int arr[], int& n)
 int* insert(int arr[], int& n, const int value, const int index)
 {
 	int* buffer = new int[n + 1];
-	for (int i = 0; i < n+1; i++)
+	for (int i = 0; i < n + 1; i++)
 	{
 		if (i < index)buffer[i] = arr[i];
 		else if (i == index)buffer[i] = value;
@@ -347,6 +352,7 @@ int** Allocate(const int rows, const int cols)
 	}
 	return arr;
 }
+#ifdef CLEAR_VARIANT_ONE
 void Clear(int** arr, const int rows)
 {
 	for (int i = 0; i < rows; i++)
@@ -354,6 +360,17 @@ void Clear(int** arr, const int rows)
 		delete[] arr[i];
 	}
 	delete[] arr;
+}
+#endif // CLEAR_VARIANT_ONE
+void Clear(int**& arr, const int rows/*, const int cols*/)
+{
+	for (int i = 0; i < rows; i++)
+	{
+		delete[] arr[i];
+	}
+	delete[] arr;
+
+	arr = nullptr;
 }
 
 int** push_row_back(int** arr, int& rows, const int cols)
@@ -372,7 +389,7 @@ int** push_row_back(int** arr, int& rows, const int cols)
 
 	//4) Добавляем добавляемую строку:
 	buffer[rows] = new int[cols] {};
-		
+
 	//5) После добавления строки, количество строк увеличивается на 1:
 	rows++;
 
@@ -381,7 +398,7 @@ int** push_row_back(int** arr, int& rows, const int cols)
 }
 int** push_row_front(int** arr, int& rows, const int cols)
 {
-	int** buffer = new int* [rows+1];
+	int** buffer = new int* [rows + 1];
 	buffer[0] = new int[cols] {};
 	for (int i = 0; i < rows; i++)buffer[i + 1] = arr[i];
 	delete[] arr;
@@ -390,7 +407,7 @@ int** push_row_front(int** arr, int& rows, const int cols)
 }
 int** pop_row_back(int** arr, int& rows)
 {
-	delete[] arr[rows-1];
+	delete[] arr[rows - 1];
 	int** buffer = new int* [--rows];
 	for (int i = 0; i < rows; i++)buffer[i] = arr[i];
 	delete[] arr;
@@ -428,7 +445,7 @@ void push_col_front(int** arr, const int rows, int& cols)
 	for (int i = 0; i < rows; i++)
 	{
 		int* buffer = new int[cols + 1] {};
-		for (int j = 0; j < cols; j++)buffer[j+1] = arr[i][j];
+		for (int j = 0; j < cols; j++)buffer[j + 1] = arr[i][j];
 		delete[] arr[i];
 		arr[i] = buffer;
 	}
@@ -479,7 +496,7 @@ int** erase_row(int** arr, int& rows, const int index)
 	}
 	for (int i = index; i < rows; i++)
 	{
-		buffer[i] = arr[i+1];
+		buffer[i] = arr[i + 1];
 	}
 
 	delete[] arr;
